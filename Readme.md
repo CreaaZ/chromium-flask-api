@@ -53,7 +53,7 @@ One to open a specific URL in the browser, another one to refresh the browser.
 #### /open_url
 
 ```http
-POST localhost:5005/open_url
+POST http://localhost:5005/open_url
 content-type: application/json
 ```
 
@@ -67,7 +67,7 @@ The endpoint returns status code `200` in case of success.
 
 #### /refresh
 ```http
-POST localhost:5005/refresh
+POST http://localhost:5005/refresh
 content-type: application/json
 ```
 
