@@ -28,14 +28,14 @@ cp .env.template .env
 
 Adjust the values accordingly
 
-| Variable              | Description                                     |
-| :-------------------- | :---------------------------------------------- |
-| `PORT`                | The port the Flask API should be exposed on     |
-| `DEBUG`               | Enable/disable Flask debug mode                 |
-| `CHROME_PATH`         | Absolute path to the Chrome/Chromuim executable |
-| `CHROME_DRIVER_PATH`  | Absolute path to the ChromeDriver executable    |
-| `BASIC_AUTH_USERNAME` | Basic Authentication User                       |
-| `BASIC_AUTH_PASSWORD` | Basic Authentication Password                   |
+| Variable              | Description                                          |
+| :-------------------- | :--------------------------------------------------- |
+| `FLASK_PORT`          | The port the Flask API should be exposed on          |
+| `FLASK_DEBUG`         | "True" or "False" to enable/disable Flask debug mode |
+| `CHROME_PATH`         | Absolute path to the Chrome/Chromuim executable      |
+| `CHROME_DRIVER_PATH`  | Absolute path to the ChromeDriver executable         |
+| `BASIC_AUTH_USERNAME` | Basic Authentication User                            |
+| `BASIC_AUTH_PASSWORD` | Basic Authentication Password                        |
 
 ## Configuring systemd service
 To start the Flask server on boot, we configure a systemd service.

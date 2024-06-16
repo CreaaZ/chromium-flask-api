@@ -85,4 +85,5 @@ def quit_driver():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=os.getenv("PORT"), debug=os.getenv("DEBUG"))
+    debug = True if os.getenv("FLASK_DEBUG") == "True" else False
+    app.run(host="0.0.0.0", port=os.getenv("FLASK_PORT"), debug=debug)
