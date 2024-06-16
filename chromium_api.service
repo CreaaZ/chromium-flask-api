@@ -1,0 +1,14 @@
+[Unit]
+Description=Flask App to Control Chromium Browser
+After=network.target
+
+[Service]
+Environment="DISPLAY=:0"
+ExecStart=/bin/bash -c 'source /home/myuser/chromium-flask-api/.venv/bin/activate && exec python /home/myuser/chromium-flask-api/main.py'
+WorkingDirectory=/home/myuser/chromium-flask-api/
+Restart=always
+User=myuser
+Environment=PATH=/usr/bin:/usr/local/bin:/home/myuser/chromium-flask-api/.venv/bin
+
+[Install]
+WantedBy=multi-user.target

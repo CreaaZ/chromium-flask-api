@@ -19,3 +19,7 @@ Authorization: Basic VXNlcjpQYXNzd29yMTExZA==
 ### Test Refresh
 POST http://localhost:5005/refresh HTTP/1.1
 Authorization: Basic VXNlcjpQYXNzd29yZA==
+
+### Test Quit
+POST http://localhost:5005/quit HTTP/1.1
+Authorization: Basic VXNlcjpQYXNzd29yZA==
