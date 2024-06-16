@@ -2,7 +2,7 @@
 
 Exposing a simple API to control a Chrome/Chromium browser via Selenium framework.
 
-It was developed to open a specific URL in kiosk mode on a remote machine that has no input devices attached.
+It was developed to open a specific URL in fullscreen mode on a remote machine that has no input devices attached.
 
 ## Installation
 
@@ -32,10 +32,23 @@ Adjust the values accordingly
 | :-------------------- | :--------------------------------------------------- |
 | `FLASK_PORT`          | The port the Flask API should be exposed on          |
 | `FLASK_DEBUG`         | "True" or "False" to enable/disable Flask debug mode |
-| `CHROME_PATH`         | Absolute path to the Chrome/Chromuim executable      |
+| `CHROME_PATH`         | Absolute path to the Chrome/Chromium executable      |
 | `CHROME_DRIVER_PATH`  | Absolute path to the ChromeDriver executable         |
+| `CHROME_PROFILE_PATH` | Absolute path to the Chrome/Chromium profiles        |
+| `CHROME_PROFILE`      | Name of the profile                                  |
 | `BASIC_AUTH_USERNAME` | Basic Authentication User                            |
 | `BASIC_AUTH_PASSWORD` | Basic Authentication Password                        |
+
+### Chrome Profiles
+
+Chrome profiles are needed to share browser and session data across the lifecycle of Chromium instances.
+By default, the ChromeDriver creates a complete clean profile for every new window managed.
+We can set a path to the Chrome profile in order to reuse credentials, cookies, etc. across new windows.
+
+With Linux, the profiles are typically located at `/home/myuser/.config/chromium/` with a default profile named `Default`.
+It is okay to use this, however, the ChromeDriver cannot launch a new window, if there is already a window open with this profile (e.g. manually opened on the desktop).
+Therefore, it is recommended to specify a new profile to be used with Selenium.
+One can also use the profile manually in Chromium, e.g. to store passwords, manually log in to website, etc.
 
 ## Configuring systemd service
 To start the Flask server on boot, we configure a systemd service.
@@ -70,13 +83,13 @@ A static user/password pair can be defined as the environment variables `BASIC_A
 
 Currently, the following endpoints are exposed.
 
-#### /open_url
+#### POST /url
 
 Opens the given website in Chromium.
 Launches a Chromium window if not present
 
 ```http
-POST http://localhost:5005/open_url
+POST http://localhost:5005/url
 content-type: application/json
 ```
 
@@ -88,7 +101,25 @@ The payload needs one parameter to be set.
 
 The endpoint returns status code `200` in case of success.
 
-#### /refresh
+#### GET /url
+
+Returns the current URL of Chromium
+
+```http
+GET http://localhost:5005/url
+content-type: application/json
+```
+
+The endpoint returns status code `200` in case of success with the following payload
+
+```json
+{
+    "status" : "success",
+    "url" : "<url"
+}
+```
+
+#### POST /refresh
 Refreshes the browser page.
 
 ```http
@@ -100,7 +131,7 @@ No payload is required.
 
 The endpoint returns status code `200` in case of success.
 
-#### /quit
+#### POST /quit
 Quits the browser and webdriver.
 
 ```http

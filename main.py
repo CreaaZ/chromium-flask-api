@@ -18,7 +18,9 @@ window_handle = None
 # Selenium setup
 chrome_options = Options()
 chrome_options.binary_location = os.getenv("CHROME_PATH")
-chrome_options.add_argument("--kiosk")
+chrome_options.add_argument("--start-fullscreen")
+chrome_options.add_argument(f"--user-data-dir={os.getenv('CHROME_PROFILE_PATH')}")
+chrome_options.add_argument(f"--profile-directory={os.getenv('CHROME_PROFILE')}")
 chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
 
 # Path to the chromedriver executable
@@ -52,9 +54,9 @@ def verify_password(username, password):
         return True
 
 
-@app.route("/open_url", methods=["POST"])
+@app.route("/url", methods=["POST"])
 @auth.login_required
-def open_url():
+def post_url():
     data = request.get_json()
     url = data.get("url")
     if url:
@@ -66,6 +68,11 @@ def open_url():
     else:
         return jsonify({"status": "error", "message": "URL is required"}), 400
 
+@app.route("/url", methods=["GET"])
+@auth.login_required
+def get_url():
+    current_url = _get_web_driver().current_url
+    return jsonify({"status": "success", "url": current_url }), 200
 
 @app.route("/refresh", methods=["POST"])
 @auth.login_required
@@ -77,7 +84,10 @@ def refresh():
 @app.route("/quit", methods=["POST"])
 @auth.login_required
 def quit_driver():
-    _get_web_driver().quit()
+    try:
+        _get_web_driver().quit()
+    except Exception as e:
+        print(str(e))
     global driver, window_handle
     driver = None
     window_handle = None
