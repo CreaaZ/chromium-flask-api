@@ -52,7 +52,7 @@ One can also use the profile manually in Chromium, e.g. to store passwords, manu
 
 ## Configuring systemd service
 To start the Flask server on boot, we configure a systemd service.
-Adjust the (path) values in `chromium_api.service`.
+Adjust the path values in `chromium_api.service` to reflect the correct binaries AND USER IN THE PATH.
 Make sure to set the `DISPLAY` environment variable to your display device, otherwise the service will not work.
 Once adjusted, run the following command to copy over the file to the service directory.
 
